@@ -8,7 +8,7 @@ var LIST_OF_PLAYER = {}
 
 //Struct : 
 //{
-//id_game : {list player}
+//id_game : {map:jsonMap, players:{list player}}
 //}
 var LIST_OF_GAMES = {}
 

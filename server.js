@@ -40,7 +40,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/login', function(req, res){
-	var pseudo = req.body.pseudo
+	var pseudo = req.body.pseudo //auth
 	req.session.user_id = pseudo;
 	req.session.game_id = 1;
     res.redirect('/game');
@@ -66,17 +66,28 @@ io.sockets.on('connection', function (socket) {
 	    	img = 'img/characterGreen.png' ;
 	    }
 
+	    var p = new Player(idP, socket, img);
+
 	    if(Variables.LIST_OF_GAMES[idG] == undefined){
 	    	Variables.LIST_OF_GAMES[idG] = {}
+	    	Variables.LIST_OF_GAMES[idG].map = mainScript.createJsonTable(5,5) ;
+	    	Variables.LIST_OF_GAMES[idG].players = {}
 	    }
-    	Variables.LIST_OF_GAMES[idG][idP] = new Player(socket, img);
+	    else {
+	    	for(var i in Variables.LIST_OF_GAMES[idG].players){
+	    		 Variables.LIST_OF_GAMES[idG].players[i].generateOtherPlayer(p);
+	    		 p.generateOtherPlayer(Variables.LIST_OF_GAMES[idG].players[i]);
+	    	}
+	    }
+
+    	Variables.LIST_OF_GAMES[idG].players[idP] = p;
 		var json = {};
 		json.player = {};
-		json.table = mainScript.createJsonTable(10,10);
+		json.table = Variables.LIST_OF_GAMES[idG].map ; 
 
-		json.player.coordX = Variables.LIST_OF_GAMES[idG][idP].coordX ; 
-		json.player.coordY = Variables.LIST_OF_GAMES[idG][idP].coordY ; 
-		json.player.imgUrl = Variables.LIST_OF_GAMES[idG][idP].imgUrl ; 
+		json.player.coordX = Variables.LIST_OF_GAMES[idG].players[idP].coordX ; 
+		json.player.coordY = Variables.LIST_OF_GAMES[idG].players[idP].coordY ; 
+		json.player.imgUrl = Variables.LIST_OF_GAMES[idG].players[idP].imgUrl ; 
 
 		socket.emit('jsonTable', json);
     }
@@ -87,8 +98,8 @@ io.sockets.on('connection', function (socket) {
 	    cons.log(params);
 	    var game = Variables.LIST_OF_GAMES[idG] ; 
 
-	    for(var i in game){
-	    	game[i].move(params);
+	    for(var i in game.players){
+	    	game.players[i].move(params);
 	    }
 
 	});

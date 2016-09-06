@@ -1,8 +1,10 @@
-var Player = function(socket, x, y ,img){
+var Player = function(socket, pseudo,  x, y ,img, isPlayer){
+	this.pseudo = pseudo ; 
 	this.socket = socket ;
 	this.coordX = x ;
 	this.coordY = y ;
 	this.imgUrl = img ;
+	this.isPlayer = isPlayer ;
 	$("#x"+this.coordX+"y"+this.coordY).append("<img src='"+this.imgUrl+"'>");
 	
 }
@@ -22,8 +24,10 @@ Player.prototype.move = function(direction) {
 		this.coordX = nextX ;
 		this.coordY = nextY ;
 		$("#x"+this.coordX+"y"+this.coordY).append("<img src='"+this.imgUrl+"'>");
-		displayArrow();
-		this.socket.emit('moveClient', direction);
+		if(this.isPlayer){
+			displayArrow();
+			this.socket.emit('moveClient', direction);
+		}
 		return true;
 	}
 	else {

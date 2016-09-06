@@ -39,15 +39,16 @@
 
  	var socket = io.connect('http://localhost:8080');
  	socket.on('jsonTable', function(message) {
- 	   	console.log("Received from server");
+ 	   	console.log("Received from server jsonTable");
  	   	TABLE_INFO = message.table ; 
-		SELF_PLAYER = new Player(socket, message.player.coordX,message.player.coordY,message.player.imgUrl);	
+		SELF_PLAYER = new Player(socket, message.player.pseudo, message.player.coordX, message.player.coordY, message.player.imgUrl, true);	
 		generateTable(TABLE_INFO);
  	   	console.log(message);
     });
 
-    socket.on('generatePlayer', function(message){
-    	
+    socket.on('generateOtherPlayer', function(m){
+ 	   	console.log("Received from server generateOtherPlayer");
+    	var p = new Player(m.pseudo, null, m.x, m.y, m.img, false);
     });
     
 	// TABLE_INFO.hauteur = 10 ;

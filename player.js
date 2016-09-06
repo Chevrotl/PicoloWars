@@ -1,4 +1,4 @@
-function Player(socket, imgUrl){
+function Player(pseudo, socket, imgUrl){
 	if(socket != null && socket != undefined){
 		this.socket = socket
 	}
@@ -13,7 +13,7 @@ function Player(socket, imgUrl){
 		this.imgUrl = 'img/character.png' ;
 	}
 
-
+	this.pseudo = pseudo ;
 	this.coordX = 0 ;
 	this.coordY = 0 ;
 	this.socket = socket;
@@ -29,5 +29,16 @@ Player.prototype.move = function(direction) {
 		default : {return false ;}
 	}
 }; 
+
+Player.prototype.moveOtherPlayer = function(idPlayer, direction) {
+	var json = {'idPlayer':idPlayer, 'direction':direction};
+	this.socket.emit('moveOtherPlayer', json);
+}; 
+
+Player.prototype.generateOtherPlayer = function(player){
+	var json = {'pseudo':player.pseudo, 'x':player.coordX, 'y':player.coordY, 'img':player.imgUrl}
+	this.socket.emit('generateOtherPlayer', json);
+	
+}
 
 module.exports = Player;
