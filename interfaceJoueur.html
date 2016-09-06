@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Picolo Wars - Joueur</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<table id="mainTable">
+<tbody id="mainTableTbody">
+	
+</tbody>
+
+</table>
+</body>
+
+<div id="arrows">
+	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('N')" class="arrowUp">
+	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('E')" class="arrowRight">
+	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('S')" class="arrowDown">
+	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('O')" class="arrowLeft">
+</div>
+<!-- 
+<div class="coverflow customCoverflow" id="coverflowCard">
+	<img src="img/cards/feufollet.png" class="cover">
+	<img src="img/cards/feufollet.png" class="cover">
+	<img src="img/cards/feufollet.png" class="cover">
+</div> -->
+
+<script src="js/script.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/fonctionsGenerales.js"></script>
+<script src="js/player.js"></script>
+<script src="js/variables.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<!-- <script src="lib/jquery-ui-1.12.0/jquery-ui.min.js"></script>
+<script src="lib/coverflow-master/jquery.coverflow.js"></script> -->
+<script type="text/javascript">
+
+ 	var socket = io.connect('http://localhost:8080');
+ 	socket.on('jsonTable', function(message) {
+ 	   	console.log("Received from server");
+ 	   	TABLE_INFO = message.table ; 
+		SELF_PLAYER = new Player(socket, message.player.coordX,message.player.coordY,message.player.imgUrl);	
+		generateTable(TABLE_INFO);
+ 	   	console.log(message);
+    });
+
+    socket.on('generatePlayer', function(message){
+    	
+    });
+    
+	// TABLE_INFO.hauteur = 10 ;
+	// TABLE_INFO.largeur = 10 ;
+	// TABLE_INFO.cases = createJsonTable(10,10)['cases']
+
+	// generateTable(TABLE_INFO);
+
+	// $(function() {
+ //        $('.coverflow').coverflow({"density":2, "outerCss":{
+ //        	'position':'absolute',
+ //        	'bottom':100
+ //        	}
+ //        });
+ //    });
+
+</script>
+</html>

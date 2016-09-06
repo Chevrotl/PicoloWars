@@ -1,0 +1,82 @@
+table {
+	border: solid 1px ;
+	border-collapse: collapse;
+	z-index: 0;
+	position: absolute;
+	margin: 0;
+	top :0;
+	left: 0;
+	table-layout: fixed;
+	/*background-image: url("img/example.png")*/
+}
+
+
+td {
+	border: solid 1px ;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	padding: 0;
+	/*background-image: url("img/cobble_blood10.png")*/
+}
+
+td > img {
+	width: 30px;
+	height: 30px;
+	animation: 1s;
+}
+
+.casePerso {
+	background-color: green;
+}
+
+#arrows {
+	position: absolute;
+	height: 250px;
+	width: 250px;
+	z-index: 10;
+}
+
+.arrowUp {
+	position: absolute;
+	margin-left: 100px;
+	cursor:pointer;
+}
+.arrowRight {
+	transform:          rotate(90deg);
+	-ms-transform:      rotate(90deg);
+	-moz-transform:     rotate(90deg);
+	-webkit-transform:  rotate(90deg);
+	-o-transform:       rotate(90deg);
+	position: absolute;
+	margin-top: 100px;
+	margin-left: 200px;
+	cursor:pointer;
+
+}
+.arrowDown {
+	transform:          rotate(180deg);
+	-ms-transform:      rotate(180deg);
+	-moz-transform:     rotate(180deg);
+	-webkit-transform:  rotate(180deg);
+	-o-transform:       rotate(180deg);
+	position: absolute;
+	margin-top: 200px;
+	margin-left: 100px;
+	cursor:pointer;
+}
+.arrowLeft {
+	transform:          rotate(270deg);
+	-ms-transform:      rotate(270deg);
+	-moz-transform:     rotate(270deg);
+	-webkit-transform:  rotate(270deg);
+	-o-transform:       rotate(270deg);
+	position: absolute;
+	margin-top: 100px;
+	cursor:pointer;
+}
+
+/*.customCoverflow{
+	position: fixed;
+	bottom: 0;
+}*/
