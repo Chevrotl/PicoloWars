@@ -48,8 +48,20 @@
 
     socket.on('generateOtherPlayer', function(m){
  	   	console.log("Received from server generateOtherPlayer");
+ 	   	console.log(m);
     	var p = new Player(m.pseudo, null, m.x, m.y, m.img, false);
+    	OTHER_PLAYERS[m.pseudo] = p ; 
     });
+
+	
+    socket.on('playerMoved', function(m){
+ 	   	console.log("Received from server playerMoved");
+ 	   	console.log('Player'+m.pseudo);
+ 	   	console.log('Direction'+m.direction);
+ 	   	if(OTHER_PLAYERS[m.pseudo] != undefined){
+ 	   		OTHER_PLAYERS[m.pseudo].move(m.direction);
+ 	   	}
+    });    
     
 	// TABLE_INFO.hauteur = 10 ;
 	// TABLE_INFO.largeur = 10 ;

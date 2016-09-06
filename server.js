@@ -73,33 +73,40 @@ io.sockets.on('connection', function (socket) {
 	    	Variables.LIST_OF_GAMES[idG].map = mainScript.createJsonTable(5,5) ;
 	    	Variables.LIST_OF_GAMES[idG].players = {}
 	    }
-	    else {
-	    	for(var i in Variables.LIST_OF_GAMES[idG].players){
-	    		 Variables.LIST_OF_GAMES[idG].players[i].generateOtherPlayer(p);
-	    		 p.generateOtherPlayer(Variables.LIST_OF_GAMES[idG].players[i]);
-	    	}
-	    }
 
-    	Variables.LIST_OF_GAMES[idG].players[idP] = p;
 		var json = {};
 		json.player = {};
 		json.table = Variables.LIST_OF_GAMES[idG].map ; 
 
-		json.player.coordX = Variables.LIST_OF_GAMES[idG].players[idP].coordX ; 
-		json.player.coordY = Variables.LIST_OF_GAMES[idG].players[idP].coordY ; 
-		json.player.imgUrl = Variables.LIST_OF_GAMES[idG].players[idP].imgUrl ; 
-
+		json.player.coordX = p.coordX ; 
+		json.player.coordY = p.coordY ; 
+		json.player.imgUrl = p.imgUrl ; 
 		socket.emit('jsonTable', json);
+	    
+    	for(var i in Variables.LIST_OF_GAMES[idG].players){
+    		 Variables.LIST_OF_GAMES[idG].players[i].generateOtherPlayer(p);
+    		 p.generateOtherPlayer(Variables.LIST_OF_GAMES[idG].players[i]);
+    	}
+	    
+    	Variables.LIST_OF_GAMES[idG].players[idP] = p;
+
     }
 
     socket.on('moveClient', function(params){
 		cons.log("Move");
-	    cons.log(socket.request.session.user_id);
-	    cons.log(params);
+		var idP = socket.request.session.user_id ;
+		var idG = socket.request.session.game_id ;
+	    cons.log("Joueur : "+idP);
+	    cons.log("Game : "+idG);
 	    var game = Variables.LIST_OF_GAMES[idG] ; 
+	    game.players[idP].move(params);
+	    
+	    var json = {'pseudo':idP, 'direction':params}	
 
 	    for(var i in game.players){
-	    	game.players[i].move(params);
+	    	if(i != idP){
+	    		game.players[i].socket.emit('playerMoved', json);
+	    	}
 	    }
 
 	});

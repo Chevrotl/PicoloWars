@@ -36,7 +36,7 @@ Player.prototype.moveOtherPlayer = function(idPlayer, direction) {
 }; 
 
 Player.prototype.generateOtherPlayer = function(player){
-	var json = {'pseudo':player.pseudo, 'x':player.coordX, 'y':player.coordY, 'img':player.imgUrl}
+	var json = {'pseudo':player.pseudo, 'x':player.coordX, 'y':player.coordY, 'img':player.imgUrl};
 	this.socket.emit('generateOtherPlayer', json);
 	
 }
