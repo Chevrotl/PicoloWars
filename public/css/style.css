@@ -30,7 +30,7 @@ td > img {
 	background-color: green;
 }
 
-#arrows {
+.arrowUp .arrowRight .arrowDown .arrowLeft {
 	position: absolute;
 	height: 250px;
 	width: 250px;

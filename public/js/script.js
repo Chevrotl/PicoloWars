@@ -61,12 +61,18 @@ function displayArrow(){
 	var top = td.offset().top - 110 ;
 	var left = td.offset().left - 100 ;
 	//top -110 left -100
-	$("#arrows").css('top',top).css('left',left).css('visibility','visible') ;
+	$("#arrowUp").css('top',top).css('left',left).css('visibility','visible') ;
+	$("#arrowRight").css('top',top).css('left',left).css('visibility','visible') ;
+	$("#arrowDown").css('top',top).css('left',left).css('visibility','visible') ;
+	$("#arrowLeft").css('top',top).css('left',left).css('visibility','visible') ;
 }
 
 
 function hideArrow(){
-	$("#arrows").css('visibility','hidden');	
+	$("#arrowUp").css('visibility','hidden') ;
+	$("#arrowRight").css('visibility','hidden') ;
+	$("#arrowDown").css('visibility','hidden') ;
+	$("#arrowLeft").css('visibility','hidden') ;
 }
 
 

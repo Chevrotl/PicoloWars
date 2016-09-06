@@ -14,12 +14,10 @@
 </table>
 </body>
 
-<div id="arrows">
-	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('N')" class="arrowUp">
-	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('E')" class="arrowRight">
-	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('S')" class="arrowDown">
-	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('O')" class="arrowLeft">
-</div>
+	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('N')" class="arrowUp" id="arrowUp">
+	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('E')" class="arrowRight" id="arrowRight">
+	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('S')" class="arrowDown" id="arrowDown">
+	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('O')" class="arrowLeft" id="arrowLeft">
 <!-- 
 <div class="coverflow customCoverflow" id="coverflowCard">
 	<img src="img/cards/feufollet.png" class="cover">
@@ -41,8 +39,8 @@
  	socket.on('jsonTable', function(message) {
  	   	console.log("Received from server jsonTable");
  	   	TABLE_INFO = message.table ; 
-		SELF_PLAYER = new Player(socket, message.player.pseudo, message.player.coordX, message.player.coordY, message.player.imgUrl, true);	
 		generateTable(TABLE_INFO);
+		SELF_PLAYER = new Player(socket, message.player.pseudo, message.player.coordX, message.player.coordY, message.player.imgUrl, true);	
  	   	console.log(message);
     });
 
