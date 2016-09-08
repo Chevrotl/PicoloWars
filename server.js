@@ -3,6 +3,7 @@ var http = require('http');
 var cons = require('console');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var mysql = require('mysql');
 var app = express();
 app.use(cookieParser());
 // app.use(session());
@@ -15,6 +16,12 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 var server = http.createServer(app)
+var database = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  database: 'picolowars'
+});
+
 var mainScript = require('./script.js');
 var Player = require('./player.js');
 var Variables = require('./variables.js');
@@ -78,6 +85,7 @@ io.sockets.on('connection', function (socket) {
 		json.player = {};
 		json.table = Variables.LIST_OF_GAMES[idG].map ; 
 
+		json.player.pseudo = p.pseudo;
 		json.player.coordX = p.coordX ; 
 		json.player.coordY = p.coordY ; 
 		json.player.imgUrl = p.imgUrl ; 
@@ -109,6 +117,41 @@ io.sockets.on('connection', function (socket) {
 	    	}
 	    }
 
+
+
+	});
+
+    
+	socket.on('askCard', function(){
+		console.log('Carte demandée');
+		var idP = socket.request.session.user_id;
+		var idG = socket.request.session.game_id;
+		var game = Variables.LIST_OF_GAMES[idG];
+		var card;
+	
+		database.query(
+			'SELECT cards.id as "card_id", cards.name, cards.description as "card_description", effets.id as "effets_id", effets.description as "effet_description", effets.type, effets.value, effets.duration, effets.target FROM Cards\
+			JOIN cards_effets ON Cards.id = cards_effets.card_id\
+			JOIN effets ON effets.id = cards_effets.effet_id\
+			JOIN targets ON targets.id = effets.target\
+			JOIN types ON types.id = effets.type\
+			WHERE cards.id=2'
+			, function(err, rows, fields) {
+		  if (err) throw err;
+		  	console.log('Carte générée: ');
+		  	card = JSON.stringify(rows);
+		  	console.log(rows);
+		  	console.log(card);
+		  	game.players[idP].socket.emit('sendCard', rows);
+		});
+		
+	});
+
+    //Reception de la carte tiré et des cibles (s'il y en a)
+	socket.on('cardPicked', function(card, targets){
+		cons.log('card :' + card);
+		cons.log('target :' + targets);
+		//EFFECTUER L'ACTION ICI
 	});
 
     

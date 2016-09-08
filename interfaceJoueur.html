@@ -6,14 +6,20 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
 <table id="mainTable">
 <tbody id="mainTableTbody">
-	
-</tbody>
 
+</tbody>
+<tfoot>
+	<tr>
+		<td>
+			<button id="askCard" type="button">Demander une carte</button>
+		</td>
+	</tr>
+</tfoot>
 </table>
 </body>
-
 	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('N')" class="arrowUp" id="arrowUp">
 	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('E')" class="arrowRight" id="arrowRight">
 	<img src="img/templateFleche.png" width="50px" height="70px" onclick="arrowMove('S')" class="arrowDown" id="arrowDown">
@@ -47,7 +53,8 @@
     socket.on('generateOtherPlayer', function(m){
  	   	console.log("Received from server generateOtherPlayer");
  	   	console.log(m);
-    	var p = new Player(m.pseudo, null, m.x, m.y, m.img, false);
+ 	   	var p = new Player(m.pseudo, m.pseudo, m.x, m.y, m.img, false);
+    	//var p = new Player(m.pseudo, null, m.x, m.y, m.img, false);
     	OTHER_PLAYERS[m.pseudo] = p ; 
     });
 
@@ -60,6 +67,11 @@
  	   		OTHER_PLAYERS[m.pseudo].move(m.direction);
  	   	}
     });    
+
+    socket.on('sendCard', function (card){
+    	console.log('carte reçu');
+    	SELF_PLAYER.pickCard(card);
+    });
     
 	// TABLE_INFO.hauteur = 10 ;
 	// TABLE_INFO.largeur = 10 ;
