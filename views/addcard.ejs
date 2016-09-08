@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Picolo Wars - Ajout de cartes</title>
+	<link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+	<!-- <link rel="stylesheet" href="../style.css"> -->
+</head>
+<div class="container">
+
+	<h2>Ajout de cartes</h2>
+	<form>
+		<label for="card_name" class="sr-only">Nom de la carte</label>
+		<input type="text" id="card_name" name="card_name" class="form-control" placeholder="Nom de la carte" required autofocus>
+		<label for="card_description">Description de la carte</label>
+		<input type="textarea" id="card_description" class="form-control" placeholder="Description" required>
+		<h4> Liste des effets </h4>
+		<label for="effet0_description">Description de l'effet</label>
+		<input type="text" id="effet0_description" name="effet0_description" required>
+		<label for="effet0_type">Type d'effet</label>
+		<select>
+		<!-- OPTIONS -->
+		</select>
+		<label for="effet0_target">Cible</label>
+		<select>
+		<!-- OPTIONS -->
+		</select>
+		<label for="effet0_value">Valeur</label>
+		<input type="number" id="effet0_value" name="effet0_value" />
+		<label for="effet0_duration">Duréee</label>
+		<input type="number" id="effet0_duration" name="effet0_duration" />
+		<button type="button" id="add_effet">
+		<input type="submit" value="Envoyer">
+	</form>
+
+</div> 
+
+<body>

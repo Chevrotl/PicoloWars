@@ -90,7 +90,7 @@ Player.prototype.pickCard = function pickCard(card){
 						for (var j in OTHER_PLAYERS){
 							//On retire l'event de click sur tous les joueurs
 							$("#x" + OTHER_PLAYERS[j].coordX + "y" + OTHER_PLAYERS[j].coordY).children().off('click');
-							this.socket.emit('cardPicked', card, targets);
+							SELF_PLAYER.socket.emit('cardPicked', card, targets);
 							console.log("Cibles selectionnées, envoi des données");
 						}
 					} else {

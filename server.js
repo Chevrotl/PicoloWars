@@ -56,6 +56,7 @@ app.post('/login', function(req, res){
 	// cons.log(res);
 });
 
+
 io.sockets.on('connection', function (socket) {
     cons.log('Connexion client');
 
@@ -121,37 +122,81 @@ io.sockets.on('connection', function (socket) {
 
 	});
 
-    
+
 	socket.on('askCard', function(){
 		console.log('Carte demandée');
 		var idP = socket.request.session.user_id;
 		var idG = socket.request.session.game_id;
 		var game = Variables.LIST_OF_GAMES[idG];
 		var card;
-	
+		/*
+		//Tirage non aléatoire
 		database.query(
 			'SELECT cards.id as "card_id", cards.name, cards.description as "card_description", effets.id as "effets_id", effets.description as "effet_description", effets.type, effets.value, effets.duration, effets.target FROM Cards\
 			JOIN cards_effets ON Cards.id = cards_effets.card_id\
 			JOIN effets ON effets.id = cards_effets.effet_id\
 			JOIN targets ON targets.id = effets.target\
 			JOIN types ON types.id = effets.type\
-			WHERE cards.id=2'
+			WHERE cards.id=1'
 			, function(err, rows, fields) {
 		  if (err) throw err;
-		  	console.log('Carte générée: ');
+		  	console.log('Carte générée ');
 		  	card = JSON.stringify(rows);
-		  	console.log(rows);
-		  	console.log(card);
 		  	game.players[idP].socket.emit('sendCard', rows);
 		});
-		
+*/
+		//Tirage de carte aléatoire
+		//On compte les cartes de la base de données ici pour pouvoir réutiliser COUNT_CARDS plus tard
+		database.query('SELECT count(id) as count FROM cards', function (err, rows, fields){
+			if (err) throw err;
+				var COUNT_CARDS = rows[0].count;
+				var rand = Math.floor((Math.random()*COUNT_CARDS) + 1);
+				database.query(
+					'SELECT cards.id as "card_id", cards.name, cards.description as "card_description", effets.id as "effets_id", effets.description as "effet_description", effets.type, effets.value, effets.duration, effets.target FROM Cards\
+					JOIN cards_effets ON Cards.id = cards_effets.card_id\
+					JOIN effets ON effets.id = cards_effets.effet_id\
+					JOIN targets ON targets.id = effets.target\
+					JOIN types ON types.id = effets.type\
+					WHERE cards.id='+rand+''
+					, function(err, rows, fields) {
+				  if (err) throw err;
+				  	console.log('Carte générée !');
+				  	card = JSON.stringify(rows);
+				  	game.players[idP].socket.emit('sendCard', rows);
+				});
+		});	
 	});
 
     //Reception de la carte tiré et des cibles (s'il y en a)
 	socket.on('cardPicked', function(card, targets){
 		cons.log('card :' + card);
 		cons.log('target :' + targets);
+		var idP = socket.request.session.user_id;
+		var idG = socket.request.session.game_id;
+		var game = Variables.LIST_OF_GAMES[idG];
 		//EFFECTUER L'ACTION ICI
+		for (var effet in card) {
+			switch (effet.type){
+				case(1):
+					//Modification de l'attaque
+					game.players[targets.pseudo].attaque += effet.value;
+					break;
+				case(2):
+					//Modification des PV
+					game.players[targets.pseudo].pdv += effet.value;
+					break;
+				case(3):
+					//Changement de tour
+					console.log("Chagement de tour indisponible");
+					break;
+				case(4):
+					//Objet
+					console.log("Objets indisponible");
+					break;
+				default:
+					console.log('Type de carte inconnu');
+			}
+		}
 	});
 
     
