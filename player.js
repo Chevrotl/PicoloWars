@@ -24,8 +24,8 @@ Player.prototype.move = function(direction) {
 	switch(direction){
 		case('N') : this.coordX-- ; break ;
 		case('S') : this.coordX++ ; break ;
-		case('E') : this.coordYr++ ; break ;
-		case('O') : this.coordYr-- ; break ;
+		case('E') : this.coordY++ ; break ;
+		case('O') : this.coordY-- ; break ;
 		default : {return false ;}
 	}
 }; 

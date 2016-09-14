@@ -40,8 +40,9 @@
 <!-- <script src="lib/jquery-ui-1.12.0/jquery-ui.min.js"></script>
 <script src="lib/coverflow-master/jquery.coverflow.js"></script> -->
 <script type="text/javascript">
-
- 	var socket = io.connect('http://localhost:8080');
+	var url = window.location.href ;
+	url = url.split('/game')[0];
+ 	var socket = io.connect(url);
  	socket.on('jsonTable', function(message) {
  	   	console.log("Received from server jsonTable");
  	   	TABLE_INFO = message.table ; 
