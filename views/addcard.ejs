@@ -4,35 +4,88 @@
 	<meta charset="utf-8"/>
 	<title>Picolo Wars - Ajout de cartes</title>
 	<link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="css/style.css">
 	<!-- <link rel="stylesheet" href="../style.css"> -->
 </head>
 <div class="container">
 
 	<h2>Ajout de cartes</h2>
-	<form>
+	<form method="post" action="/addcard">
 		<label for="card_name" class="sr-only">Nom de la carte</label>
 		<input type="text" id="card_name" name="card_name" class="form-control" placeholder="Nom de la carte" required autofocus>
 		<label for="card_description">Description de la carte</label>
-		<input type="textarea" id="card_description" class="form-control" placeholder="Description" required>
-		<h4> Liste des effets </h4>
-		<label for="effet0_description">Description de l'effet</label>
-		<input type="text" id="effet0_description" name="effet0_description" required>
-		<label for="effet0_type">Type d'effet</label>
-		<select>
-		<!-- OPTIONS -->
-		</select>
-		<label for="effet0_target">Cible</label>
-		<select>
-		<!-- OPTIONS -->
-		</select>
-		<label for="effet0_value">Valeur</label>
-		<input type="number" id="effet0_value" name="effet0_value" />
-		<label for="effet0_duration">Duréee</label>
-		<input type="number" id="effet0_duration" name="effet0_duration" />
-		<button type="button" id="add_effet">
+		<input type="textarea" id="card_description" name="card_description" class="form-control" placeholder="Description" required>
+		<h3> Liste des effets </h3>
+		<div id="liste_effets">
+			<div class="effet" id="effet_0">
+			<h4> Effet 1 </h4>
+			<label for="effet0_description">Description de l'effet</label>
+			<input class="form-control" type="text" id="effet0_description" name="effet0_description" required>
+			<br/>
+			<label for="effet0_type">Type d'effet</label>
+			<select id="effet0_type" name="effet0_type" class="form-control">
+			<!-- OPTIONS -->
+			<% for(var i=0; i<liste_types.length; i++) {%>
+				<option value=<= %liste_types[i].id%>><%= liste_types[i].name %></option>
+			<% } %>
+			</select>
+			<br/>
+			<label for="effet0_target">Cible</label>
+			<select id="effet0_target" name="effet0_target" class="form-control">
+			<!-- OPTIONS -->
+			<% for(var i=0; i<liste_targets.length; i++) {%>
+				<option value=<% liste_types[i].id%>><%= liste_targets[i].name %></option>
+			<% } %>
+			</select>
+			<br/>
+			<label for="effet0_value">Valeur</label>
+			<input class="form-control" type="number" id="effet0_value" name="effet0_value" />
+			<label for="effet0_duration">Durée</label>
+			<input class="form-control" type="number" id="effet0_duration" name="effet0_duration" />
+			</div>
+			<br/>
+		</div>
+		<button type="button" id="addEffet">Ajouter un effet</button>
+		<br/>
 		<input type="submit" value="Envoyer">
 	</form>
 
 </div> 
 
 <body>
+
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+
+	
+	var nb_effets = 1;
+
+	$('#addEffet').click(function(){
+		$('#liste_effets').append('<div class="effet" id="effet_0">\
+			<h4> Effet ' + (nb_effets + 1) + '</h4>\
+			<label for="effet' + nb_effets + '_description">Description de l\'effet</label>\
+			<input class="form-control" type="text" id="effet' + nb_effets + '_description" name="effet' + nb_effets + '_description" required>\
+			<br/>\
+			<label for="effet' + nb_effets + '_type">Type d\'effet</label>\
+			<select id="effet' + nb_effets + '_type" class="form-control">\
+			<% for(var i=0; i<liste_types.length; i++) {%>\
+				<option value=<= %liste_types[i].id%>><%= liste_types[i].name %></option>\
+			<% } %>\
+			</select>\
+			<br/>\
+			<label for="effet' + nb_effets + '_target">Cible</label>\
+			<select id="effet' + nb_effets + '_target" class="form-control">\
+			<% for(var i=0; i<liste_targets.length; i++) {%>\
+				<option value=<% liste_types[i].id%>><%= liste_targets[i].name %></option>\
+			<% } %>\
+			</select>\
+			<br/>\
+			<label for="effet' + nb_effets + '_value">Valeur</label>\
+			<input class="form-control" type="number" id="effet' + nb_effets + '_value" name="effet' + nb_effets + '_value" />\
+			<label for="effet' + nb_effets + '_duration">Durée</label>\
+			<input class="form-control" type="number" id="effet' + nb_effets + '_duration" name="effet' + nb_effets + '_duration" />\
+			</div><br/>');
+		nb_effets = nb_effets + 1;
+	});
+
+</script>

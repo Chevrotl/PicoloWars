@@ -115,3 +115,4 @@ function createJsonTable(hauteur,largeur){
 	// console.log(json);
 	return json ; 
 }
+

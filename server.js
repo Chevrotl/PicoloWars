@@ -147,6 +147,7 @@ io.sockets.on('connection', function (socket) {
 */
 		//Tirage de carte aléatoire
 		//On compte les cartes de la base de données ici pour pouvoir réutiliser COUNT_CARDS plus tard
+		//Voir si a la place on ne choisirait pas un deck à la création de la partie pour qu'on puisse le réutiliser
 		database.query('SELECT count(id) as count FROM cards', function (err, rows, fields){
 			if (err) throw err;
 				var COUNT_CARDS = rows[0].count;
@@ -161,7 +162,6 @@ io.sockets.on('connection', function (socket) {
 					, function(err, rows, fields) {
 				  if (err) throw err;
 				  	console.log('Carte générée !');
-				  	card = JSON.stringify(rows);
 				  	game.players[idP].socket.emit('sendCard', rows);
 				});
 		});	
@@ -201,6 +201,29 @@ io.sockets.on('connection', function (socket) {
 
     
     // cons.log(socket);
+});
+
+
+app.get('/addcard', function (req, res){
+	//Les options pour types
+	database.query('SELECT id, name FROM types', function (err, rows, fields){
+		var liste_types = rows;
+		database.query('SELECT id, name FROM targets', function(err, rows, fields){
+			var liste_targets = rows;
+			res.render('addcard.ejs', {liste_targets : liste_targets, liste_types : liste_types});
+		});
+	});
+
+});
+
+app.post('/addcard', function (req, res){
+	//Les options pour types
+	cons.log("Carte reçue");
+	console.log(req.body);
+	
+	//database.query('SELECT id, name FROM types', function (err, rows, fields){
+		
+
 });
 
 

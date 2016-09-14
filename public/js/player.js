@@ -41,7 +41,7 @@ Player.prototype.move = function(direction) {
 $('#askCard').click(function(){
 	console.log('Demande de carte au serveur');
 	SELF_PLAYER.socket.emit('askCard');
-})
+});
 
 
 
