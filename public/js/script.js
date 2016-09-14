@@ -49,9 +49,13 @@ function movePlayerToCoordinate(xAxis, yAxis){
 		return false;
 	}
 
+	for(var i in OTHER_PLAYERS){
+		if(OTHER_PLAYERS[i].coordX == x && OTHER_PLAYERS[i].coordY == y){
+			console.log("Joueur deja présent : "+OTHER_PLAYERS[i].pseudo);
+			return false;
+		}
+	}
 
-	var id= 'x'+x+'y'+y ;
-	$("#"+id).addClass('casePerso');
 	return true ; 
 }
 

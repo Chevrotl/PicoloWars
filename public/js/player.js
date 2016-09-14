@@ -22,7 +22,7 @@ Player.prototype.move = function(direction) {
 		default : {return false ;}
 	}
 	if(movePlayerToCoordinate(nextX, nextY)){
-		$("#x"+this.coordX+"y"+this.coordY+" > img").remove();
+		$("#img"+this.pseudo).remove();
 		this.coordX = nextX ;
 		this.coordY = nextY ;
 		$("#x"+this.coordX+"y"+this.coordY).append("<img id='img"+this.pseudo+"' src='"+this.imgUrl+"'>");
